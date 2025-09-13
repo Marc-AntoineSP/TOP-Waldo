@@ -1,4 +1,5 @@
 import Card from "./components/card";
+import Leaderboard from "./components/leaderboard";
 
 export default function Home() {
   return (
@@ -17,7 +18,9 @@ export default function Home() {
         <Card title={"test"} difficulty={2} best_score={999}/>
       </section>
       {/* DANS LE LEADERBOARD */}
-      <section id="leaderboard"></section>
+      <section id="leaderboard">
+        <Leaderboard/>
+      </section>
     </main>
   );
 }

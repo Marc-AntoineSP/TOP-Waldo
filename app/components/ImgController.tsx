@@ -8,7 +8,7 @@ import { checkForTargets } from "../lib/utils";
 
 
 export default function ImgController(props:{id:string}){
-    const [targets, setTargets] = useState<CoordinatesMap>({});
+    const [targets, setTargets] = useState<CoordinatesMap | undefined>({});
     useEffect(() => {
         const fetch = async () => {
         const res = await getCoordinatesAction(props.id);

@@ -1,8 +1,9 @@
-import { getCoordinatesFromDb } from "../lib/db";
+'use server'
+import { getTargetsCoordinates } from "../lib/db";
 
 export const getCoordinatesAction = async (id:string) => {
     try{
-        const coordinates = await getCoordinatesFromDb(Number(id));
+        const coordinates = await getTargetsCoordinates(Number(id));
         return coordinates;
     }
     catch(e){

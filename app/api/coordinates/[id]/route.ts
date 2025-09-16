@@ -10,5 +10,5 @@ export async function GET(req: Request, context: {params: Promise<{id:string}>})
             map:Number(id)
         }
     })
-    return NextResponse.json(res);
+    return NextResponse.json(res?.coordinates);
 }

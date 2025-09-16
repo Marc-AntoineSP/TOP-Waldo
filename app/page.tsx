@@ -1,7 +1,9 @@
+import { seedMap } from "./actions/seed";
 import Card from "./components/card";
 import Leaderboard from "./components/leaderboard";
 
 export default function Home() {
+  seedMap();
   return (
     <main className="flex-1 flex flex-col justify-center items-center bg-slate-500 p-24"> 
       {/* HAUT DE LA PAGE */}

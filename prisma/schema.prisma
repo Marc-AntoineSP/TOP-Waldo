@@ -1,0 +1,37 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../app/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Coordinates {
+  map         Int       @id
+  coordinates Json
+  scores      Scores[]
+}
+
+model Users {
+  user_id Int     @id @default(autoincrement())
+  name    String  @unique
+  scores  Scores[]
+}
+
+model Scores {
+  id      Int          @id @default(autoincrement())
+  value   Int
+  map_id  Int
+  user_id Int
+
+  map     Coordinates  @relation(fields: [map_id], references: [map])
+  user    Users        @relation(fields: [user_id], references: [user_id])
+}

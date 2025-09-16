@@ -3,19 +3,16 @@ import Image from "next/image"
 import React, { useEffect, useRef, useState } from "react";
 import Overlay from "./Overlay";
 import { Coordinates, CoordinatesMap } from "../lib/types";
-import { getCoordinatesAction } from "../actions/mapAction";
 import { checkForTargets } from "../lib/utils";
 
 
 export default function ImgController(props:{id:string}){
-    const [targets, setTargets] = useState<CoordinatesMap | undefined>({});
+    const [targets, setTargets] = useState<CoordinatesMap>({});
     useEffect(() => {
-        const fetch = async () => {
-        const res = await getCoordinatesAction(props.id);
-        setTargets(res);
-    };
-    fetch();
-    })
+        fetch(`/api/coordinates/${props.id}`)
+        .then(res => res.json())
+        .then(setTargets);
+    }, [props.id]);
     const [layer, setLayer] = useState<Coordinates[]>([]);
     const layerRef = useRef<HTMLDivElement | null>(null);
     const imgName = `map-${props.id}.webp`;

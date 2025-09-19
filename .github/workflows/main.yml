@@ -1,4 +1,4 @@
-name: Build and deploy Node.js app to Azure Web App - waldo
+name: Build and Deploy Next.js App to Azure Web App - waldo
 
 on:
   push:
@@ -9,21 +9,27 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write  # requis pour azure/login
 
     steps:
+      # 1️⃣ Checkout du code
       - uses: actions/checkout@v4
 
+      # 2️⃣ Setup Node.js
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '20.x'
 
-      - name: Install dependencies
-        run: npm install
+      # 3️⃣ Installer les dépendances et builder
+      - name: Install dependencies and build
+        run: |
+          npm ci
+          npm run build
 
-      - name: Build Next.js
-        run: npm run build
-
+      # 4️⃣ Login Azure
       - name: Login to Azure
         uses: azure/login@v2
         with:
@@ -31,9 +37,10 @@ jobs:
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_F89D1B93328B44D0BBE0F72BE2C0A5B6 }}
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_CD7611A43CF8406DB40ED1268741A124 }}
 
+      # 5️⃣ Déployer le projet
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v3
         with:
           app-name: 'waldo'
-          slot-name: 'Production'
           package: .
+          startup-command: 'npx next start -p 8080'

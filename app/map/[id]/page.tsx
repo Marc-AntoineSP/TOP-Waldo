@@ -8,7 +8,11 @@ import { CheckableCoordinatesMap, CoordinatesMap } from "@/app/lib/types";
 export default async function GamePage({ params }: { params: Promise<{ id: string }> }){
 
     const {id} = await params;
-    const res:Response = await fetch(`/api/coordinates/${id}`);
+    const baseUrl =
+        process.env.VERCEL_URL
+        ? `https://${process.env.VERCEL_URL}`
+        : "http://localhost:3000";
+    const res:Response = await fetch(`${baseUrl}/api/coordinates/${id}`);
     const data:CoordinatesMap = await res.json();
     const checkableTargets:CheckableCoordinatesMap = Object.fromEntries(
         Object.entries(data).map(([key, value]) => [

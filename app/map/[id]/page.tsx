@@ -2,19 +2,22 @@ import ImgController from "@/app/components/ImgController";
 import Objectives from "@/app/components/Objectives";
 import Timer from "@/app/components/Timer";
 import { TargetsProvider } from "@/app/context/targetContext";
+import { PrismaClient } from "@/app/generated/prisma";
 import { CheckableCoordinatesMap, CoordinatesMap } from "@/app/lib/types";
 
 
 export default async function GamePage({ params }: { params: Promise<{ id: string }> }){
 
     const {id} = await params;
-    const res:Response = await fetch(`https://${process.env.VERCEL_URL}/api/coordinates/${id}`, { cache: "no-store" });
-    if (!res.ok) {
-        const text = await res.text();
-        console.error("API error response:", text);
-        throw new Error(`Failed to fetch coordinates for id ${id}`);
-    }
-    const data:CoordinatesMap = await res.json();
+    
+    const prisma = new PrismaClient();
+    
+    const res = await prisma.coordinates.findFirst({
+            where:{
+                map:Number(id)
+            }
+    });
+    const data:CoordinatesMap = res?.coordinates as CoordinatesMap;
     const checkableTargets:CheckableCoordinatesMap = Object.fromEntries(
         Object.entries(data).map(([key, value]) => [
             key,

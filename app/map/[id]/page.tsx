@@ -14,6 +14,9 @@ export default async function GamePage({params}:{params:{id:string}}){
                 <section id="img" className="flex justify-center items-center">
                     <ImgController id={id}/>
                 </section>
+                <section id="objectives">
+                    <Objectives/>        
+                </section>
             </div>
         </main>
     )

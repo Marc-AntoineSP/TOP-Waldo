@@ -4,8 +4,9 @@ import Timer from "@/app/components/Timer";
 import { TargetsProvider } from "@/app/context/targetContext";
 import { CheckableCoordinatesMap, CoordinatesMap } from "@/app/lib/types";
 
+type GamePageProps = { params : {id:string}}
 
-export default async function GamePage({ params }: { params: { id: string } }){
+export default async function GamePage({ params }: GamePageProps){
 
     const {id} = params;
     const baseUrl =

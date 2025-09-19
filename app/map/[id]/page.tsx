@@ -4,11 +4,10 @@ import Timer from "@/app/components/Timer";
 import { TargetsProvider } from "@/app/context/targetContext";
 import { CheckableCoordinatesMap, CoordinatesMap } from "@/app/lib/types";
 
-type GamePageProps = { params : {id:string}}
 
-export default async function GamePage({ params }: GamePageProps){
+export default async function GamePage({ params }: { params: Promise<{ id: string }> }){
 
-    const {id} = params;
+    const {id} = await params;
     const baseUrl =
         process.env.VERCEL_URL
         ? `https://${process.env.VERCEL_URL}`

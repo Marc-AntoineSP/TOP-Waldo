@@ -7,9 +7,8 @@ import { CheckableCoordinatesMap, CoordinatesMap } from "@/app/lib/types";
 
 export default async function GamePage({ params }: { params: Promise<{ id: string }> }){
 
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
     const {id} = await params;
-    const res:Response = await fetch(`${baseUrl}/api/coordinates/${id}`);
+    const res:Response = await fetch(`/api/coordinates/${id}`);
     const data:CoordinatesMap = await res.json();
     const checkableTargets:CheckableCoordinatesMap = Object.fromEntries(
         Object.entries(data).map(([key, value]) => [

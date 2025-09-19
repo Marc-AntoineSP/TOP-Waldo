@@ -4,7 +4,11 @@ import Timer from "@/app/components/Timer";
 import { TargetsProvider } from "@/app/context/targetContext";
 import { CheckableCoordinatesMap, CoordinatesMap } from "@/app/lib/types";
 
-export default async function GamePage({params}:{params:{id:string}}){
+interface GamePageProps {
+    params: {id:string}
+}
+
+export default async function GamePage({params}:GamePageProps){
 
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
     const {id} = await params;

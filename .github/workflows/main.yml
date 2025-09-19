@@ -1,4 +1,4 @@
-name: Build and deploy Node.js app to Azure Web App - waldo
+name: Build and deploy Next.js app to Azure Web App - waldo
 
 on:
   push:
@@ -9,9 +9,13 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write  # requis pour azure/login
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
       - name: Set up Node.js
         uses: actions/setup-node@v3
@@ -21,7 +25,7 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Build Next.js
+      - name: Build Next.js app
         run: npm run build
 
       - name: Login to Azure
@@ -37,3 +41,4 @@ jobs:
           app-name: 'waldo'
           slot-name: 'Production'
           package: .
+          enable-oryx-build: true   # <-- IMPORTANT pour que Azure installe next et les dépendances

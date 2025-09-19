@@ -8,11 +8,7 @@ import { CheckableCoordinatesMap, CoordinatesMap } from "@/app/lib/types";
 export default async function GamePage({ params }: { params: Promise<{ id: string }> }){
 
     const {id} = await params;
-    const baseUrl =
-        process.env.VERCEL_URL
-        ? `https://${process.env.VERCEL_URL}`
-        : "http://localhost:3000";
-    const res:Response = await fetch(`${baseUrl}/api/coordinates/${id}`, { cache: "no-store" });
+    const res:Response = await fetch(`https://top-waldo-p6k68fclj-awus-projects-765241bb.vercel.app/api/coordinates/${id}`, { cache: "no-store" });
     if (!res.ok) {
         const text = await res.text();
         console.error("API error response:", text);

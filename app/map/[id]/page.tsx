@@ -5,14 +5,19 @@ import { TargetsProvider } from "@/app/context/targetContext";
 import { CheckableCoordinatesMap, CoordinatesMap } from "@/app/lib/types";
 
 
-export default async function GamePage({ params }: { params: Promise<{ id: string }> }){
+export default async function GamePage({ params }: { params: { id: string } }){
 
-    const {id} = await params;
+    const {id} = params;
     const baseUrl =
         process.env.VERCEL_URL
         ? `https://${process.env.VERCEL_URL}`
         : "http://localhost:3000";
-    const res:Response = await fetch(`${baseUrl}/api/coordinates/${id}`);
+    const res:Response = await fetch(`${baseUrl}/api/coordinates/${id}`, { cache: "no-store" });
+    if (!res.ok) {
+        const text = await res.text();
+        console.error("API error response:", text);
+        throw new Error(`Failed to fetch coordinates for id ${id}`);
+    }
     const data:CoordinatesMap = await res.json();
     const checkableTargets:CheckableCoordinatesMap = Object.fromEntries(
         Object.entries(data).map(([key, value]) => [

@@ -1,18 +1,15 @@
 'use client'
 import Image from "next/image"
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import Overlay from "./Overlay";
-import { Coordinates, CoordinatesMap } from "../lib/types";
+import { Coordinates } from "../lib/types";
 import { checkForTargets } from "../lib/utils";
+import { useTargetsContext } from "../context/targetContext";
 
 
 export default function ImgController(props:{id:string}){
-    const [targets, setTargets] = useState<CoordinatesMap>({});
-    useEffect(() => {
-        fetch(`/api/coordinates/${props.id}`)
-        .then(res => res.json())
-        .then(setTargets);
-    }, [props.id]);
+    //GERE LE STATE EN HAUT
+    const {targets, onChangeTarget} = useTargetsContext();
     const [layer, setLayer] = useState<Coordinates[]>([]);
     const layerRef = useRef<HTMLDivElement | null>(null);
     const imgName = `map-${props.id}.webp`;
@@ -21,7 +18,7 @@ export default function ImgController(props:{id:string}){
         const x = e.clientX - rect.left;
         const y = e.clientY - rect.top;
         console.log(targets)
-        if(checkForTargets(x, y, targets))
+        if(checkForTargets(x, y, targets, onChangeTarget))
             setLayer(prev => [...prev, {x:x, y:y}]);
     }
     return (

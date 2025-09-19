@@ -17,7 +17,7 @@ export default async function GamePage({params}:{params:{id:string}}){
         ])
     );
     return (
-        <main className="flex items-center justify-center self-stretch px-24 py-2.5 bg-slate-500 outline-1 outline-offset-[-1px] outline-black overflow-hidden flex-1">
+        <main className="flex items-center justify-center self-stretch px-24 py-2.5 bg-slate-500 outline-1 outline-offset-[-1px] outline-black overflow-hidden flex-1 gap-4">
             <TargetsProvider initial={checkableTargets}>
             <section id="tab" className="inline-flex flex-col justify-start items-start gap-2.5">
                 <section id="scoreTimer" className="flex flex-row w-full justify-between">
@@ -28,7 +28,7 @@ export default async function GamePage({params}:{params:{id:string}}){
                     <ImgController id={id}/>
                 </section>
             </section>
-            <section id="objectives">
+            <section id="objectives" className="flex flex-col justify-start items-center font-semibold leading-10 gap-4 self-start">
                 <Objectives/>        
             </section>
             </TargetsProvider>

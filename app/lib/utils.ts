@@ -9,7 +9,7 @@ export const checkForTargets = (x:number, y:number, targetList:CheckableCoordina
             if(topLeft.y <= targetList[targetCoords].y && bottomRight.y >= targetList[targetCoords].y){
                 console.log('Dedans.')
                 targetList[targetCoords].checked = true
-                setTargets(targetList[targetCoords]);
+                setTargets((prev: CheckableCoordinatesMap) => ({...prev, [targetCoords]:{...prev[targetCoords], checked: true}}));
                 return true
             }
         }

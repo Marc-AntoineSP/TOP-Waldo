@@ -4,19 +4,16 @@ import { CheckableCoordinatesMap } from "../lib/types";
 
 type TargetsContextType = {
     targets:CheckableCoordinatesMap;
-    onChangeTarget: (targetToReplace:CheckableCoordinatesMap) => void;
+    setTargets: (targetToReplace:CheckableCoordinatesMap) => void;
 }
 
 const TargetsContext = createContext<TargetsContextType | undefined>(undefined);
 
 export function TargetsProvider({children, initial}:{children:ReactNode, initial:CheckableCoordinatesMap}){
     const [targets, setTargets] = useState<CheckableCoordinatesMap>(initial);
-    const onChangeTarget = (target:CheckableCoordinatesMap) => {
-        setTargets(prev => ({...prev, ...target}))
-    }
 
     return (
-        <TargetsContext.Provider value={{targets, onChangeTarget}}>{children}</TargetsContext.Provider>
+        <TargetsContext.Provider value={{targets, setTargets}}>{children}</TargetsContext.Provider>
     )
 }
 
